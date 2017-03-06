@@ -8,7 +8,7 @@ CREATE TABLE messages
   id_recipient   VARCHAR(1023)           NOT NULL DEFAULT 0,
   text           TEXT,
   raw            TEXT                    NOT NULL
-)
+);
 
 CREATE INDEX messages_created_at_idx ON messages (created_at);
 CREATE INDEX messages_sent_at_idx ON messages (sent_at);
@@ -47,6 +47,16 @@ CREATE INDEX answers_sent_at_idx ON answers (sent_at);
 CREATE INDEX answers_id_sender_idx ON answers (id_sender);
 CREATE INDEX answers_id_survey_idx ON answers (id_survey);
 CREATE INDEX answers_id_question_idx ON answers (id_question);
+
+CREATE TABLE humans
+(
+  id         SERIAL PRIMARY KEY          NOT NULL,
+  created_at TIMESTAMP DEFAULT now()     NOT NULL,
+  id_sender  VARCHAR(1023)               NOT NULL
+);
+CREATE INDEX humans_created_at_idx ON humans (created_at);
+CREATE INDEX humans_id_sender_idx ON humans (id_sender);
+
 
 --   survey contains questions
 --   questions contain options of answers
