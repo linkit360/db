@@ -48,14 +48,15 @@ CREATE INDEX answers_id_sender_idx ON answers (id_sender);
 CREATE INDEX answers_id_survey_idx ON answers (id_survey);
 CREATE INDEX answers_id_question_idx ON answers (id_question);
 
-CREATE TABLE humans
+CREATE TABLE sender
 (
-  id         SERIAL PRIMARY KEY          NOT NULL,
+  id         VARCHAR(1023)               NOT NULL PRIMARY KEY,
   created_at TIMESTAMP DEFAULT now()     NOT NULL,
-  id_sender  VARCHAR(1023)               NOT NULL
+  status     VARCHAR(127)                NOT NULL DEFAULT 'active'
 );
-CREATE INDEX humans_created_at_idx ON humans (created_at);
-CREATE INDEX humans_id_sender_idx ON humans (id_sender);
+CREATE INDEX sender_id_sender_idx ON sender (id);
+CREATE INDEX sender_created_at_idx ON sender (created_at);
+CREATE INDEX sender_status_idx ON sender (status);
 
 
 --   survey contains questions
