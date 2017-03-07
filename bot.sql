@@ -20,8 +20,13 @@ CREATE TABLE survey
 (
   id         SERIAL PRIMARY KEY      NOT NULL,
   created_at TIMESTAMP DEFAULT now() NOT NULL,
-  id_creator INT                     NOT NULL
+  id_creator INT                     NOT NULL,
+  image_url  VARCHAR(4047)           NOT NULL DEFAULT '',
+  item_url   VARCHAR(4047)           NOT NULL DEFAULT '',
+  title      VARCHAR(4047)           NOT NULL DEFAULT '',
+  subtitle   VARCHAR(4047)           NOT NULL DEFAULT ''
 );
+
 CREATE TABLE questions
 (
   id             SERIAL PRIMARY KEY      NOT NULL,
@@ -54,6 +59,7 @@ CREATE TABLE sender
   created_at TIMESTAMP DEFAULT now()     NOT NULL,
   status     VARCHAR(127)                NOT NULL DEFAULT 'active'
 );
+
 CREATE INDEX sender_id_sender_idx ON sender (id);
 CREATE INDEX sender_created_at_idx ON sender (created_at);
 CREATE INDEX sender_status_idx ON sender (status);
