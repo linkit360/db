@@ -16,25 +16,32 @@ CREATE INDEX messages_sent_timestamp_idx ON messages (sent_timestamp);
 CREATE INDEX messages_id_sender_idx ON messages (id_sender);
 CREATE INDEX messages_id_recipient_idx ON messages (id_recipient);
 
-CREATE TABLE survey
+CREATE TABLE surveys
 (
   id         SERIAL PRIMARY KEY      NOT NULL,
   created_at TIMESTAMP DEFAULT now() NOT NULL,
-  id_creator INT                     NOT NULL,
-  image_url  VARCHAR(4047)           NOT NULL DEFAULT '',
-  item_url   VARCHAR(4047)           NOT NULL DEFAULT '',
-  title      VARCHAR(4047)           NOT NULL DEFAULT '',
-  subtitle   VARCHAR(4047)           NOT NULL DEFAULT ''
+  id_creator INT                     NOT NULL
 );
 
 CREATE TABLE questions
 (
-  id             SERIAL PRIMARY KEY      NOT NULL,
-  created_at     TIMESTAMP DEFAULT now() NOT NULL,
+  id         SERIAL PRIMARY KEY          NOT NULL,
+  created_at TIMESTAMP DEFAULT now()     NOT NULL,
   id_creator VARCHAR(1023)               NOT NULL,
   id_survey  VARCHAR(1023)               NOT NULL,
-  options    JSONB DEFAULT '{}' :: JSONB NOT NULL
+  send_order INT                         NOT NULL,
+  image_url  VARCHAR(4047)               NOT NULL DEFAULT '',
+  item_url   VARCHAR(4047)               NOT NULL DEFAULT '',
+  title      VARCHAR(4047)               NOT NULL DEFAULT '',
+  subtitle   VARCHAR(4047)               NOT NULL DEFAULT '',
+  options    JSONB DEFAULT '[]' :: JSONB NOT NULL
 );
+
+CREATE INDEX questions_created_at_idx ON questions (created_at);
+CREATE INDEX questions_id_creator_idx ON questions (id_creator);
+CREATE INDEX questions_id_survey_idx ON questions (id_survey);
+CREATE INDEX questions_id_order_idx ON questions (send_order);
+
 
 CREATE TABLE answers
 (
