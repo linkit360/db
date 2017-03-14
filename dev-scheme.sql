@@ -651,11 +651,14 @@ CREATE TABLE public.xmp_pixel_buffer (
   created_at TIMESTAMP NOT NULL DEFAULT now(),
   sent_at TIMESTAMP NOT NULL DEFAULT now(),
   id_campaign INT NOT NULL,
+  id_service INT NOT NULL,
   tid CHARACTER VARYING(127) NOT NULL DEFAULT '',
   pixel VARCHAR(511) NOT NULL DEFAULT ''
 );
 create index xmp_pixel_buffer_id_campaign_idx
   on xmp_pixel_buffer(id_campaign);
+create index xmp_pixel_buffer_id_service_idx
+  on xmp_pixel_buffer(id_service);
 create index xmp_pixel_buffer_id_sent_at_idx
   on xmp_pixel_buffer(sent_at);
 
