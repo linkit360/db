@@ -565,25 +565,28 @@ CREATE TABLE xmp_service_country_settings
 CREATE TABLE xmp_services
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  created_at TIMESTAMP DEFAULT now() NOT NULL,
-  status INTEGER NOT NULL DEFAULT 1,
-  id_payment_type INTEGER, -- reg pull chechelan
-  id_currency INTEGER NOT NULL,
-  price DOUBLE PRECISION NOT NULL,
   country_code INTEGER DEFAULT 0 NOT NULL,
   name VARCHAR(32) NOT NULL,
   description VARCHAR(32) NOT NULL DEFAULT '',
-  short_number VARCHAR(255) NOT NULL DEFAULT '',
+  created_at TIMESTAMP DEFAULT now() NOT NULL,
+  status INTEGER NOT NULL DEFAULT 1,
+  id_payment_type INTEGER NOT NULL DEFAULT 0, -- reg pull chechelan
+  id_currency INTEGER NOT NULL DEFAULT 0,
+  price DOUBLE PRECISION NOT NULL DEFAULT .0,
+  sms_on_subscribe VARCHAR(255) NOT NULL DEFAULT '',
+  sms_on_content VARCHAR(255) NOT NULL DEFAULT '',
+  sms_on_unsubscribe VARCHAR(255) NOT NULL DEFAULT '',
   paid_hours INTEGER DEFAULT 0 NOT NULL,
   delay_hours INT NOT NULL DEFAULT 10,
-  keep_days INTEGER NOT NULL,
-  not_paid_text VARCHAR(255) NOT NULL DEFAULT '',
-  send_not_paid_text_enabled bool not null default false,
+  retry_days INTEGER NOT NULL DEFAULT 0,
+  inactive_days INTEGER NOT NULL DEFAULT 0,
+  grace_days INTEGER NOT NULL DEFAULT 0,
+  minimal_touch_times INTEGER NOT NULL DEFAULT 0,
   days JSONB DEFAULT '[]'::jsonb NOT NULL, -- ['','any','sun','mon','tue','wed','thu','fri','sat']
   allowed_from INT NOT NULL not null default 0,
-  allowed_to INT NOT NULL not null default 0,
-  send_content_text_template VARCHAR(255) NOT NULL DEFAULT '%v'
+  allowed_to INT NOT NULL not null default 0
 );
+
 
 CREATE TABLE xmp_subscriptions_statuses ( name VARCHAR(127) NOT NULL PRIMARY KEY );
 INSERT INTO xmp_subscriptions_statuses VALUES (''), ('failed'), ('paid'), ('blacklisted'), ('postpaid'), ('rejected'), ('canceled'), ('pending');
@@ -653,7 +656,7 @@ CREATE TABLE public.xmp_pixel_buffer (
   id_campaign INT NOT NULL,
   id_service INT NOT NULL,
   tid CHARACTER VARYING(127) NOT NULL DEFAULT '',
-  pixel VARCHAR(511) NOT NULL DEFAULT ''
+  pixel VARCHAR(511) UNIQUE NOT NULL DEFAULT ''
 );
 create index xmp_pixel_buffer_id_campaign_idx
   on xmp_pixel_buffer(id_campaign);
