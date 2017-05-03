@@ -570,8 +570,6 @@ CREATE TABLE xmp_services
   description VARCHAR(32) NOT NULL DEFAULT '',
   created_at TIMESTAMP DEFAULT now() NOT NULL,
   status INTEGER NOT NULL DEFAULT 1,
-  id_payment_type INTEGER NOT NULL DEFAULT 0, -- reg pull chechelan
-  id_currency INTEGER NOT NULL DEFAULT 0,
   price DOUBLE PRECISION NOT NULL DEFAULT .0,
   sms_on_subscribe VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_content VARCHAR(255) NOT NULL DEFAULT '',

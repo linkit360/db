@@ -164,7 +164,7 @@ insert into xmp_subscriptions(
   attempts_count ,
   price ,
   result ,
-  keep_days ,
+  retry_days ,
   last_pay_attempt_at ,
   paid_hours ,
   delay_hours ,
