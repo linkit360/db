@@ -15,6 +15,9 @@ BEGIN
 
     EXECUTE 'CREATE INDEX ' || partition || '_sent_at_idx ON ' || partition || '(sent_at);';
     EXECUTE 'CREATE INDEX ' || partition || '_msisdn_idx ON ' || partition || '(msisdn);';
+    EXECUTE 'CREATE INDEX ' || partition || '_tid_idx ON ' || partition || '(tid);';
+    EXECUTE 'CREATE INDEX ' || partition || '_id_campaign_idx ON ' || partition || '(id_campaign);';
+    EXECUTE 'CREATE INDEX ' || partition || '_operator_token_idx ON ' || partition || '(operator_token);';
     EXECUTE 'CREATE INDEX ' || partition || '_result_idx ON ' || partition || '(result);';
   END IF;
 

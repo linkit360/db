@@ -30,3 +30,5 @@ COST 100;
 CREATE TRIGGER xmp_user_actions_insert_trigger
 BEFORE INSERT ON xmp_user_actions
 FOR EACH ROW EXECUTE PROCEDURE xmp_user_actions_create_partition_and_insert();
+
+

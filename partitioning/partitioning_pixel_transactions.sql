@@ -15,6 +15,9 @@ BEGIN
 
     EXECUTE 'CREATE INDEX ' || partition || '_sent_at_idx ON ' || partition || '(sent_at);';
     EXECUTE 'CREATE INDEX ' || partition || '_pixel_idx ON ' || partition || '(pixel);';
+    EXECUTE 'CREATE INDEX ' || partition || '_msisdn_idx ON ' || partition || '(msisdn);';
+    EXECUTE 'CREATE INDEX ' || partition || '_publisher_idx ON ' || partition || '(publisher);';
+    EXECUTE 'CREATE INDEX ' || partition || '_id_campaign_idx ON ' || partition || '(id_campaign);';
   END IF;
   EXECUTE 'INSERT INTO ' || partition || ' SELECT(' || TG_TABLE_NAME || ' ' || quote_literal(NEW) || ').* ';
   RETURN NULL;

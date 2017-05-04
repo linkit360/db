@@ -39,6 +39,10 @@ BEGIN
     EXECUTE 'CREATE INDEX ' || partition || '_sent_at_idx ON ' || partition || '(sent_at);';
     EXECUTE 'CREATE INDEX ' || partition || '_last_pay_attempt_at_idx ON ' || partition || '(last_pay_attempt_at);';
     EXECUTE 'CREATE INDEX ' || partition || '_result_idx ON ' || partition || '(result);';
+    EXECUTE 'CREATE INDEX ' || partition || '_periodic_idx ON ' || partition || '(periodic);';
+    EXECUTE 'CREATE INDEX ' || partition || '_tid_idx ON ' || partition || '(tid);';
+    EXECUTE 'CREATE INDEX ' || partition || '_channel_idx ON ' || partition || '(channel);';
+    EXECUTE 'CREATE INDEX ' || partition || '_msisdn_idx ON ' || partition || '(msisdn);';
 
   END IF;
 
@@ -52,5 +56,4 @@ COST 100;
 CREATE TRIGGER xmp_subscriptions_insert_trigger
 BEFORE INSERT ON xmp_subscriptions
 FOR EACH ROW EXECUTE PROCEDURE xmp_subscriptions_create_partition_and_insert();
-
 

@@ -15,6 +15,8 @@ BEGIN
 
     EXECUTE 'CREATE INDEX ' || partition || '_sent_at_idx ON ' || partition || '(sent_at);';
     EXECUTE 'CREATE INDEX ' || partition || '_tid_idx ON ' || partition || '(tid);';
+    EXECUTE 'CREATE INDEX ' || partition || '_id_service_idx ON ' || partition || '(id_service);';
+    EXECUTE 'CREATE INDEX ' || partition || '_id_campaign_idx ON ' || partition || '(id_campaign);';
   END IF;
   EXECUTE 'INSERT INTO ' || partition || ' SELECT(' || TG_TABLE_NAME || ' ' || quote_literal(NEW) || ').* ';
   RETURN NULL;

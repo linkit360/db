@@ -411,7 +411,7 @@ CREATE TABLE xmp_retries
   last_pay_attempt_at TIMESTAMP DEFAULT now() NOT NULL,
   attempts_count INTEGER DEFAULT 1 NOT NULL,
   price INTEGER NOT NULL,
-  keep_days INTEGER NOT NULL,
+  retry_days INTEGER NOT NULL,
   delay_hours INTEGER NOT NULL,
   msisdn VARCHAR(32) NOT NULL,
   operator_code INTEGER NOT NULL,
@@ -428,7 +428,8 @@ create index xmp_retries_operator_code_idx on xmp_retries(operator_code);
 CREATE TABLE xmp_retries_expired
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  status retry_status NOT NULL DEFAULT  '',
+  status varchar(127) NOT NULL DEFAULT '',
+  CONSTRAINT xmp_retries_expired_status_fk FOREIGN KEY (status) REFERENCES xmp_retry_statuses (name),
   tid varchar(127) NOT NULL DEFAULT '',
   created_at TIMESTAMP DEFAULT now() NOT NULL,
   updated_at TIMESTAMP DEFAULT now() NOT NULL,
@@ -436,7 +437,7 @@ CREATE TABLE xmp_retries_expired
   last_pay_attempt_at TIMESTAMP DEFAULT now() NOT NULL,
   attempts_count INTEGER DEFAULT 1 NOT NULL,
   price INTEGER NOT NULL,
-  keep_days INTEGER NOT NULL,
+  retry_days INTEGER NOT NULL,
   delay_hours INTEGER NOT NULL,
   msisdn VARCHAR(32) NOT NULL,
   operator_code INTEGER NOT NULL,
@@ -571,6 +572,9 @@ CREATE TABLE xmp_services
   created_at TIMESTAMP DEFAULT now() NOT NULL,
   status INTEGER NOT NULL DEFAULT 1,
   price DOUBLE PRECISION NOT NULL DEFAULT .0,
+  sms_on_rejected VARCHAR(255) NOT NULL DEFAULT '',
+  sms_on_blacklisted VARCHAR(255) NOT NULL DEFAULT '',
+  sms_on_postpaid VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_subscribe VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_content VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_unsubscribe VARCHAR(255) NOT NULL DEFAULT '',
@@ -594,19 +598,20 @@ CREATE TABLE xmp_subscriptions
   tid VARCHAR(127) DEFAULT ''::character varying NOT NULL,
   id_service INTEGER DEFAULT 0 NOT NULL,
   country_code INTEGER DEFAULT 0 NOT NULL,
+  operator_code INTEGER DEFAULT 0 NOT NULL,
   created_at TIMESTAMP DEFAULT now(),
   sent_at TIMESTAMP NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
   msisdn VARCHAR(32),
-  operator_code INTEGER DEFAULT 0 NOT NULL,
   operator_token VARCHAR(511) NOT NULL default '',
   id_campaign INTEGER DEFAULT 0 NOT NULL,
   attempts_count INTEGER DEFAULT 0 NOT NULL,
   price INTEGER NOT NULL,
   result varchar(127) NOT NULL DEFAULT '',
   CONSTRAINT xmp_subscriptions_result_fk FOREIGN KEY (result) REFERENCES xmp_subscriptions_statuses (name),
-  keep_days INTEGER DEFAULT 10 NOT NULL,
+  retry_days INTEGER DEFAULT 10 NOT NULL,
   last_pay_attempt_at TIMESTAMP DEFAULT now() NOT NULL,
+  channel VARCHAR(255) DEFAULT '' NOT NULL,
   delay_hours INTEGER NOT NULL,
   paid_hours INTEGER DEFAULT 0 NOT NULL,
   pixel VARCHAR(511) NOT NULL DEFAULT '',
@@ -628,6 +633,8 @@ create index xmp_subscriptions_periodic_idx
   on xmp_subscriptions(periodic);
 create index xmp_subscriptions_tid_idx
   on xmp_subscriptions(tid);
+create index xmp_subscriptions_channel_idx
+  on xmp_subscriptions(channel);
 
 CREATE TABLE xmp_subscription_type
 (
@@ -731,7 +738,6 @@ CREATE TABLE xmp_transactions
   id_campaign INTEGER DEFAULT 0 NOT NULL,
   operator_code INTEGER NOT NULL DEFAULT 0,
   id_subscription INTEGER NOT NULL DEFAULT 0,
-  id_content INTEGER NOT NULL DEFAULT 0,
   operator_token VARCHAR(511) NOT NULL,
   price INTEGER NOT NULL,
   result varchar(127) NOT NULL,
@@ -741,6 +747,10 @@ create index xmp_transactions_sent_at_idx
   on xmp_transactions(sent_at);
 create index xmp_transactions_msisdn_idx
   on xmp_transactions(msisdn);
+create index xmp_transactions_tid_idx
+  on xmp_transactions(tid);
+create index xmp_transactions_id_campaign_idx
+  on xmp_transactions(id_campaign);
 create index xmp_transactions_result_idx
   on xmp_transactions(result);
 create index xmp_transactions_operator_token_idx
