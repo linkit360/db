@@ -322,17 +322,17 @@ CREATE TABLE xmp_mobilink_transactions
 CREATE TABLE xmp_msisdn_postpaid
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  msisdn VARCHAR(32)
+  msisdn VARCHAR(32) NOT NULL UNIQUE
 );
 CREATE TABLE xmp_msisdn_blacklist
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  msisdn VARCHAR(32)
+  msisdn VARCHAR(32) NOT NULL UNIQUE
 );
 CREATE TABLE xmp_msisdn_whitelist
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  msisdn VARCHAR(32)
+  msisdn VARCHAR(32) NOT NULL UNIQUE
 );
 CREATE TABLE xmp_operator_ip
 (
