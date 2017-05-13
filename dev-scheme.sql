@@ -61,7 +61,7 @@ CREATE TABLE xmp_campaigns_access (
   created_at                  TIMESTAMP NOT NULL DEFAULT NOW(),
   sent_at                     TIMESTAMP NOT NULL DEFAULT NOW(),
   msisdn                      varchar(32) NOT NULL DEFAULT '',
-  ip                          varchar(32) NOT NULL DEFAULT '',
+  ip                          varchar(4091) NOT NULL DEFAULT '',
   os                          varchar(127) NOT NULL DEFAULT '',
   device                      varchar(127) NOT NULL DEFAULT '',
   browser                     varchar(127) NOT NULL DEFAULT '',
