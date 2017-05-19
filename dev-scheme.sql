@@ -28,7 +28,7 @@ CREATE INDEX index_for_xmp_campaign_ratio_counter_field_id_campaign
 CREATE TABLE xmp_campaigns
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  link VARCHAR(512),
+  link VARCHAR(512) NOT NULL UNIQUE,
   name VARCHAR(128) NOT NULL,
   id_publisher INTEGER NOT NULL,
   priority INTEGER,
@@ -577,6 +577,7 @@ CREATE TABLE xmp_services
   sms_on_postpaid VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_subscribe VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_content VARCHAR(255) NOT NULL DEFAULT '',
+  sms_on_charged VARCHAR(255) NOT NULL DEFAULT '',
   sms_on_unsubscribe VARCHAR(255) NOT NULL DEFAULT '',
   paid_hours INTEGER DEFAULT 0 NOT NULL,
   delay_hours INT NOT NULL DEFAULT 10,
@@ -609,6 +610,7 @@ CREATE TABLE xmp_subscriptions
   price INTEGER NOT NULL,
   result varchar(127) NOT NULL DEFAULT '',
   CONSTRAINT xmp_subscriptions_result_fk FOREIGN KEY (result) REFERENCES xmp_subscriptions_statuses (name),
+  outflow_reason varchar NOT NULL default '',
   retry_days INTEGER DEFAULT 10 NOT NULL,
   last_pay_attempt_at TIMESTAMP DEFAULT now() NOT NULL,
   channel VARCHAR(255) DEFAULT '' NOT NULL,

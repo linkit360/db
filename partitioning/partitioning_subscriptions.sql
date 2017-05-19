@@ -14,6 +14,7 @@ $BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
 
+
 CREATE TRIGGER xmp_subscriptions_clean_parent_after_child_insert_trigger
 AFTER INSERT ON xmp_subscriptions
 FOR EACH ROW EXECUTE PROCEDURE xmp_subscriptions_clean_parent_after_child_insert();
