@@ -612,6 +612,7 @@ CREATE TABLE xmp_subscriptions
   CONSTRAINT xmp_subscriptions_result_fk FOREIGN KEY (result) REFERENCES xmp_subscriptions_statuses (name),
   outflow_reason varchar NOT NULL default '',
   retry_days INTEGER DEFAULT 10 NOT NULL,
+  trial_days INTEGER DEFAULT 0 NOT NULL,
   last_pay_attempt_at TIMESTAMP DEFAULT now() NOT NULL,
   channel VARCHAR(255) DEFAULT '' NOT NULL,
   delay_hours INTEGER NOT NULL,
