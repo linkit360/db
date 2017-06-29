@@ -46,6 +46,7 @@ BEGIN
     EXECUTE 'CREATE INDEX ' || partition || '_msisdn_idx ON ' || partition || '(msisdn);';
     EXECUTE 'CREATE INDEX ' || partition || '_days_idx ON ' || partition || '(days);';
     EXECUTE 'CREATE INDEX ' || partition || '_trial_days_idx ON ' || partition || '(trial_days);';
+    EXECUTE 'CREATE INDEX ' || partition || '_enabled_idx ON ' || partition || '(enabled);';
 
   END IF;
 
